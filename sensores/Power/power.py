@@ -1,0 +1,20 @@
+import json
+import random
+import time
+
+def generate_power_data():
+    """Genera datos simulados de consumo de energía."""
+    data = {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "power_consumption": round(random.uniform(0.1, 10.0), 2),  # kWh
+        "voltage": round(random.uniform(210, 240), 2),  # V
+        "current": round(random.uniform(0.5, 15.0), 2),  # A
+        "power_factor": round(random.uniform(0.5, 1.0), 2)  # Factor de potencia (0-1)  
+    }
+    return data
+
+if __name__ == "__main__":
+    while True:
+        power_data = generate_power_data()
+        print(json.dumps(power_data))  # Devuelve el JSON en la salida estándar
+        time.sleep(5)  # Espera 5 segundos antes de la siguiente medición
