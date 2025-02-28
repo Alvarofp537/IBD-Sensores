@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  temperature:
+    build:
+      context: .
+      dockerfile: Temperature.Dockerfile
+    image: my_temperature_service:latest
+    deploy:
+      replicas: 4
+    
+
+  occupation:
+    build:
+      context: .
+      dockerfile: Occupation.Dockerfile
+    image: my_occupation_service:latest
+    deploy:
+      replicas: 6
+    
+   
+  power:
+    build:
+      context: .
+      dockerfile: Power.Dockerfile
+    image: my_power_service:latest
+    deploy:
+      replicas: 7
+    
+
+  cameras:
+    build:
+      context: .
+      dockerfile: Cameras.Dockerfile
+    image: my_cameras_service:latest
+    deploy:
+      replicas: 3
+    
