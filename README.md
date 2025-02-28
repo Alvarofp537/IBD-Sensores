@@ -9,13 +9,14 @@ Hayq  generar sda5tos aleatorios.
 
 ## Pasos
 
-- [ ] 1. Definir API y modelo.
-- [ ] 2. Generar datos aleatorios.
-- [ ] 3. Crear sensores.
-- [ ] 4. Crear códigos python para la API
+- [x] 1. Definir API y modelo.
+- [x] 2. Generar datos aleatorios.
+- [ ] 3. Crear sensores. (Mandar información mediante POST)
+- [x] 4. Crear códigos python para la API
 - [ ] 5. Preparar dockerfiles. (Uno por cada servicio)
 - [ ] 6. Crear docker compose
 - [ ] 7. Comprobar funcionamiento
+- [ ] 8. Subir imagenes docker para no hacer build en docker compose
 
 ---
 

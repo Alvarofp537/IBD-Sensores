@@ -4,12 +4,18 @@ import pika, os, time
 
 app = Flask(__name__)
 
+
+
 ### Temperatura ###
 
 @app.route('/temperature', methods=['GET'])
 def get_temperature():
-    ###
-    raise NotImplementedError
+    # Call lector to access the data
+    try:
+        response = requests.get('http://lector-service:5000/temperature')
+        return jsonify(response.json())
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/temperature', methods=['POST'])
 def post_temperature():
@@ -34,6 +40,15 @@ def post_temperature():
 ######
 
 ### Ocupacion ###
+@app.route('/ocupacion', methods=['GET'])
+def get_temperature():
+    # Call lector to access the data
+    try:
+        response = requests.get('http://lector-service:5000/ocupacion')
+        return jsonify(response.json())
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+    
 @app.route('/ocupacion', methods=['POST'])
 def post_temperature():
     try:
@@ -57,6 +72,15 @@ def post_temperature():
 ######
 
 ### Consumo ###
+@app.route('/consumo', methods=['GET'])
+def get_temperature():
+    # Call lector to access the data
+    try:
+        response = requests.get('http://lector-service:5000/consumo')
+        return jsonify(response.json())
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/consumo', methods=['POST'])
 def post_temperature():
     try:
@@ -80,6 +104,15 @@ def post_temperature():
 ######
 
 ### Seguridad ###
+@app.route('/seguridad', methods=['GET'])
+def get_temperature():
+    # Call lector to access the data
+    try:
+        response = requests.get('http://lector-service:5000/seguridad')
+        return jsonify(response.json())
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+    
 @app.route('/seguridad', methods=['POST'])
 def post_temperature():
     try:

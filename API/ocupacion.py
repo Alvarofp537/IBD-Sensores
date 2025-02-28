@@ -1,6 +1,10 @@
 import pika, os, time
 import json
 
+with open('ocupacion.csv', 'a') as f:
+    # Create csv with header
+    f.write('timestamp,occupancy,movement,location,dwell_time\n')
+
 time.sleep(10)  # Wait for RabbitMQ container to initialize
 
 rabbitmq_host = os.getenv('RABBITMQ_HOST')
@@ -14,7 +18,7 @@ channel.queue_declare(queue='ocupacion')
 def callback(ch, method, properties, body):
     data = json.load(body)
     linea = f"{data['timestamp']},{data['occupancy']},{data['movement']},{data['location']}, {data['dwell_time']}"
-    with open('ocupacion.csv', 'a') as f:
+    with open('data/ocupacion.csv', 'a') as f:
         f.write(linea + '\n')
 
 channel.basic_consume(queue='temperature', on_message_callback=callback, auto_ack=True)
