@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import requests
 
 def generate_status_data():
     """Genera datos simulados de estado y alertas."""
@@ -21,8 +22,18 @@ def generate_status_data():
     }
     return data
 
+API_URL = "http://localhost:5003/data"  # Endpoint de la API de destino
+
 if __name__ == "__main__":
     while True:
         status_data = generate_status_data()
-        print(json.dumps(status_data))  # Devuelve el JSON en la salida estándar
+
+        try:
+            response = requests.post(API_URL, json=status_data) #se puede añadir un timeout
+            response.raise_for_status()  # Lanza un error si el código de respuesta es un error
+            print(json.dumps(status_data)) # Devuelve el JSON en la salida estándar
+        except requests.exceptions.RequestException as e:
+            print(f" Error al enviar los datos: {e}")
+
         time.sleep(120)  # Espera 2 minutos antes de la siguiente medición
+

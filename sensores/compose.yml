@@ -10,7 +10,7 @@ services:
 
   occupation:
     build:
-        ./Occupation
+        ./Occupancy
     deploy:
       replicas: 6
     
@@ -24,7 +24,7 @@ services:
 
   cameras:
     build:
-        ./Cameras
+        ./Security
     deploy:
       replicas: 3
     

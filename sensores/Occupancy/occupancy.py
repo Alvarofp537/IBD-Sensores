@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import requests
 
 def generate_occupancy_data():
     """Genera datos simulados de ocupación y movimiento en una zona."""
@@ -13,8 +14,19 @@ def generate_occupancy_data():
     }
     return data
 
+
+API_URL = "http://localhost:5001/data"  # Endpoint de la API de destino
+
 if __name__ == "__main__":
     while True:
         occupancy_data = generate_occupancy_data()
-        print(json.dumps(occupancy_data))  # Devuelve el JSON en la salida estándar
-        time.sleep(6)  # Espera 1 minuto antes de la siguiente medición
+
+        try:
+            response = requests.post(API_URL, json=occupancy_data) #se puede añadir un timeout
+            response.raise_for_status()  # Lanza un error si el código de respuesta es un error
+            print(json.dumps(occupancy_data)) # Devuelve el JSON en la salida estándar
+        except requests.exceptions.RequestException as e:
+            print(f" Error al enviar los datos: {e}")
+
+        time.sleep(60)  # Espera 1 minuto antes de la siguiente medición
+
