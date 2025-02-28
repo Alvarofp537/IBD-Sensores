@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 
 ### Temperatura ###
-
 @app.route('/temperature', methods=['GET'])
 def get_temperature():
     # Call lector to access the data
@@ -41,7 +40,7 @@ def post_temperature():
 
 ### Ocupacion ###
 @app.route('/ocupacion', methods=['GET'])
-def get_temperature():
+def get_ocupacion():
     # Call lector to access the data
     try:
         response = requests.get('http://lector-service:5000/ocupacion')
@@ -50,7 +49,7 @@ def get_temperature():
         return jsonify({'error': str(e)}), 500
     
 @app.route('/ocupacion', methods=['POST'])
-def post_temperature():
+def post_ocupacion():
     try:
         ocupacion_channel.basic_publish(exchange='',
                           routing_key='ocupacion',
@@ -73,7 +72,7 @@ def post_temperature():
 
 ### Consumo ###
 @app.route('/consumo', methods=['GET'])
-def get_temperature():
+def get_consumo():
     # Call lector to access the data
     try:
         response = requests.get('http://lector-service:5000/consumo')
@@ -82,7 +81,7 @@ def get_temperature():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/consumo', methods=['POST'])
-def post_temperature():
+def post_consumo():
     try:
         consumo_channel.basic_publish(exchange='',
                           routing_key='consumo',
@@ -105,7 +104,7 @@ def post_temperature():
 
 ### Seguridad ###
 @app.route('/seguridad', methods=['GET'])
-def get_temperature():
+def get_seguridad():
     # Call lector to access the data
     try:
         response = requests.get('http://lector-service:5000/seguridad')
@@ -114,7 +113,7 @@ def get_temperature():
         return jsonify({'error': str(e)}), 500
     
 @app.route('/seguridad', methods=['POST'])
-def post_temperature():
+def post_seguridad():
     try:
         seguridad_channel.basic_publish(exchange='',
                           routing_key='seguridad',
@@ -144,7 +143,7 @@ if __name__ == '__main__':
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host,credentials=rabbitmq_credentials))
     temperatura_channel = connection.channel(channel_number=1)
-    temperatura_channel.queue_declare(queue='temperature')
+    temperatura_channel.queue_declare(queue='temperatura')
     ocupacion_channel = connection.channel(channel_number=2)
     ocupacion_channel.queue_declare(queue='ocupacion')
     consumo_channel = connection.channel(channel_number=3)

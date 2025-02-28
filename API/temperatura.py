@@ -13,7 +13,7 @@ rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.g
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host,credentials=rabbitmq_credentials))
 channel = connection.channel(channel_number=1)
 
-channel.queue_declare(queue='temperature')
+channel.queue_declare(queue='temperatura')
 
 def callback(ch, method, properties, body):
     data = json.load(body)
@@ -21,6 +21,6 @@ def callback(ch, method, properties, body):
     with open('data/temperatura.csv', 'a') as f:
         f.write(linea + '\n')
 
-channel.basic_consume(queue='temperature', on_message_callback=callback, auto_ack=True)
+channel.basic_consume(queue='temperatura', on_message_callback=callback, auto_ack=True)
 
 channel.start_consuming()

@@ -21,6 +21,6 @@ def callback(ch, method, properties, body):
     with open('data/consumo.csv', 'a') as f:
         f.write(linea + '\n')
 
-channel.basic_consume(queue='temperature', on_message_callback=callback, auto_ack=True)
+channel.basic_consume(queue='consumo', on_message_callback=callback, auto_ack=True)
 
 channel.start_consuming()
