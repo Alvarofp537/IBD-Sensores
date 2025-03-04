@@ -1,11 +1,11 @@
 # IBD-Sensores
 Primera práctica de IBD
 
-## plNTEAMOAD
+## Planteamiento
 la escalibidad de los sensores debeíra poder ser orizontal. 
-cada senso0r en un docjer container distinto.
-UNA API PARA CADA SENSOR. 
-Hayq  generar sda5tos aleatorios.
+cada sensor en un contenedor docker distinto.
+UNA API PARA TODOS LOS SENSORES. 
+Hay que generar datos aleatorios.
 
 ## Pasos
 
