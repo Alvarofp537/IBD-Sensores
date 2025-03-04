@@ -17,8 +17,7 @@ Hayq  generar sda5tos aleatorios.
 - [ ] 6. Crear docker compose
 - [ ] 7. Comprobar funcionamiento
 - [ ] 8. Subir imagenes docker para no hacer build en docker compose
-- [ ] 9. Abir puertos de la api (5000:5003) 
-- [ ] 10. cambiar url destino de los post de los sensores
+- [ ] 9. cambiar url destino de los post de los sensores
 
 ---
 
