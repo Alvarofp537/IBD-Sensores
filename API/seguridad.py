@@ -1,7 +1,7 @@
 import pika, os, time
 import json
 
-with open('seguridad.csv', 'a') as f:
+with open('/data/seguridad.csv', 'a') as f:
     # Create csv with header
     f.write('timestamp,status,alerts,alert_level\n')
 
@@ -18,7 +18,7 @@ channel.queue_declare(queue='seguridad')
 def callback(ch, method, properties, body):
     data = json.load(body)
     linea = f"{data['timestamp']},{data['status']},{data['alerts']},{data['alert_level']}"
-    with open('data/seguridad.csv', 'a') as f:
+    with open('/data/seguridad.csv', 'a') as f:
         f.write(linea + '\n')
 
 channel.basic_consume(queue='seguridad', on_message_callback=callback, auto_ack=True)

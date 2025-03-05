@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 ### Temperatura ###
-@app.route('/temperature', methods=['GET'])
+@app.route('/temperatura', methods=['GET'])
 def get_temperature():
     # Call lector to access the data
     try:
@@ -16,11 +16,11 @@ def get_temperature():
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/temperature', methods=['POST'])
+@app.route('/temperatura', methods=['POST'])
 def post_temperature():
     try:
         temperatura_channel.basic_publish(exchange='',
-                          routing_key='temperature',
+                          routing_key='temperatura',
                           body=request.json)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Temperature unavailable'}), 503
@@ -152,4 +152,4 @@ if __name__ == '__main__':
     seguridad_channel.queue_declare(queue='seguridad')
 
 
-connection.close()
+    connection.close()

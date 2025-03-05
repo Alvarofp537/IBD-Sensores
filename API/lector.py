@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-import csv
+import csv, time
 
 app = Flask(__name__)
 
@@ -12,35 +12,39 @@ def csv_to_json(csv_string):
 @app.route('/temperature', methods=['GET'])
 def get_temperature():
     # Call lector to access the data
-    with open('data/temperatura.csv') as f:
+    with open('/data/temperatura.csv') as f:
         response = f.read()
     contenido = response.content.decode('utf-8')
     json_data = csv_to_json(contenido)
     return jsonify(json_data)
 
 @app.route('/ocupacion', methods=['GET'])
-def get_temperature():
+def get_ocupacion():
     # Call lector to access the data
-    with open('data/ocupacion.csv') as f:
+    with open('/data/ocupacion.csv') as f:
         response = f.read()
     contenido = response.content.decode('utf-8')
     json_data = csv_to_json(contenido)
     return jsonify(json_data)
 
 @app.route('/consumo', methods=['GET'])
-def get_temperature():
+def get_consumo():
     # Call lector to access the data
-    with open('data/consumo.csv') as f:
+    with open('/data/consumo.csv') as f:
         response = f.read()
     contenido = response.content.decode('utf-8')
     json_data = csv_to_json(contenido)
     return jsonify(json_data)
 
 @app.route('/seguridad', methods=['GET'])
-def get_temperature():
+def get_seguridad():
     # Call lector to access the data
-    with open('data/seguridad.csv') as f:
+    with open('/data/seguridad.csv') as f:
         response = f.read()
     contenido = response.content.decode('utf-8')
     json_data = csv_to_json(contenido)
     return jsonify(json_data)
+
+if __name__ == '__main__':
+    time.sleep(10)  # Wait for RabbitMQ container to initialize
+    app.run(host='0.0.0.0', port=8080)

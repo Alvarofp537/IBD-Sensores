@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+    networks:
+      - building-network
+    environment:
+        RABBITMQ_DEFAULT_USER: building
+        RABBITMQ_DEFAULT_PASS: password
+  api-gateway:
+    image: miguelgp13/api-gateway:1.0
+    ports:
+      - "8080:8080"
+    networks:
+      - building-network
+    environment:
+        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_USERNAME=building
+        - RABBITMQ_PASSWORD=password
+    depends_on:
+      - consumo-service
+      - ocupacion-service
+      - seguridad-service
+      - temperatura-service
+      - lector-service
+
+  consumo-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.consumo
+    volumes:
+      - almacen:/data
+    networks:
+      - building-network
+    environment:
+        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_USERNAME=building
+        - RABBITMQ_PASSWORD=password
+
+  ocupacion-service:
+    image: miguelgp13/ocupacion:1.0
+    volumes:
+      - almacen:/data
+    networks:
+      - building-network
+    environment:
+        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_USERNAME=building
+        - RABBITMQ_PASSWORD=password
+
+  seguridad-service:
+    image: miguelgp13/seguridad:1.0
+    volumes:
+      - almacen:/data
+    networks:
+      - building-network
+    environment:
+        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_USERNAME=building
+        - RABBITMQ_PASSWORD=password
+
+  temperatura-service:
+    image: miguelgp13/temperatura:1.0
+    volumes:
+      - almacen:/data
+    networks:
+      - building-network
+    environment:
+        - RABBITMQ_HOST=rabbitmq
+        - RABBITMQ_USERNAME=building
+        - RABBITMQ_PASSWORD=password
+
+  lector-service:
+    # image: miguelgp13/lector:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.lector
+
+    volumes:
+      - almacen:/data
+    networks:
+      - building-network
+
+volumes:
+  almacen:
+
+networks:
+  building-network:
+    driver: bridge
+    
