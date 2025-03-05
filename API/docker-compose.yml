@@ -29,9 +29,7 @@ services:
       - lector-service
 
   consumo-service:
-    build:
-      context: .
-      dockerfile: Dockerfile.consumo
+    image: miguelgp13/consumo:2.0
     volumes:
       - almacen:/data
     networks:
@@ -42,7 +40,7 @@ services:
         - RABBITMQ_PASSWORD=password
 
   ocupacion-service:
-    image: miguelgp13/ocupacion:1.0
+    image: miguelgp13/ocupacion:2.0
     volumes:
       - almacen:/data
     networks:
@@ -53,7 +51,7 @@ services:
         - RABBITMQ_PASSWORD=password
 
   seguridad-service:
-    image: miguelgp13/seguridad:1.0
+    image: miguelgp13/seguridad:2.0
     volumes:
       - almacen:/data
     networks:
@@ -64,7 +62,7 @@ services:
         - RABBITMQ_PASSWORD=password
 
   temperatura-service:
-    image: miguelgp13/temperatura:1.0
+    image: miguelgp13/temperatura:2.0
     volumes:
       - almacen:/data
     networks:
@@ -75,10 +73,7 @@ services:
         - RABBITMQ_PASSWORD=password
 
   lector-service:
-    # image: miguelgp13/lector:1.0
-    build:
-      context: .
-      dockerfile: Dockerfile.lector
+    image: miguelgp13/lector:2.0
 
     volumes:
       - almacen:/data
