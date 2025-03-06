@@ -29,6 +29,7 @@ Este documento proporciona una guía rápida para desplegar el proyecto de contr
     Navega al directorio API (donde se encuentra el archivo `docker-compose.yml`) y ejecuta el siguiente comando:
 
     ```bash
+    cd API/
     docker compose up -d
     ```
 
@@ -40,6 +41,8 @@ Este documento proporciona una guía rápida para desplegar el proyecto de contr
     Navega al directorio Sensores (donde se encuentra el archivo `docker-compose.yml`) y ejecuta el siguiente comando:
 
     ```bash
+    cd ..
+    cd Sensores/
     docker compose up -d
     ```
 
