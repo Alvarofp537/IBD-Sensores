@@ -73,7 +73,7 @@ services:
         - RABBITMQ_PASSWORD=password
 
   lector-service:
-    image: miguelgp13/lector:2.0
+    image: miguelgp13/lector:3.0
 
     volumes:
       - almacen:/data

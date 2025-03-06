@@ -2,29 +2,33 @@ version: '3.8'
 
 services:
   temperature:
-    build:
-      ./Temperature
+    image: alvarofp/sensor-temperatura
+    networks:
+      - building-network
     deploy:
       replicas: 4
     
 
   occupation:
-    build:
-        ./Occupancy
+    image: alvarofp/sensor-ocupacion
+    networks:
+      - building-network
     deploy:
       replicas: 6
     
    
   power:
-    build:
-        ./Power
+    image: alvarofp/sensor-power
+    networks:
+      - building-network
     deploy:
       replicas: 7
     
 
   cameras:
-    build:
-        ./Security
+    image: alvarofp/sensor-camara
+    networks:
+      - building-network
     deploy:
       replicas: 3
     
