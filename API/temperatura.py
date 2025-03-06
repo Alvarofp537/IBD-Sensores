@@ -17,9 +17,12 @@ channel.queue_declare(queue='temperatura')
 
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('utf-8'))
-    linea = f"{data['timestamp']},{data['temperature']},{data['humidity']},{data['air_quality']}"
-    with open('/data/temperatura.csv', 'a') as f:
-        f.write(linea + '\n')
+    try:
+        linea = f"{data['timestamp']},{data['temperature']},{data['humidity']},{data['air_quality']}"
+        with open('/data/temperatura.csv', 'a') as f:
+            f.write(linea + '\n')
+    except:
+        print('El json no tiene los parámetros correctos: timestamp,temperature,humidity,air_quality')
 
 channel.basic_consume(queue='temperatura', on_message_callback=callback, auto_ack=True)
 

@@ -17,9 +17,12 @@ channel.queue_declare(queue='consumo')
 
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('utf-8'))
-    linea = f"{data['timestamp']},{data['power_consumption']},{data['voltage']},{data['current']}, {data['power_factor']}"
-    with open('/data/consumo.csv', 'a') as f:
-        f.write(linea + '\n')
+    try:
+        linea = f"{data['timestamp']},{data['power_consumption']},{data['voltage']},{data['current']}, {data['power_factor']}"
+        with open('/data/consumo.csv', 'a') as f:
+            f.write(linea + '\n')
+    except:
+        print('El json no tiene los parámetros correctos: timestamp,power_consumption,voltage,current,power_factor')
 
 channel.basic_consume(queue='consumo', on_message_callback=callback, auto_ack=True)
 
