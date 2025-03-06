@@ -5,7 +5,7 @@ with open('/data/temperatura.csv', 'w') as f:
     # Create csv with header
     f.write('timestamp,temperature,humidity,air_quality\n')
 
-time.sleep(10)  # Wait for RabbitMQ container to initialize
+time.sleep(20)  # Wait for RabbitMQ container to initialize
 
 rabbitmq_host = os.getenv('RABBITMQ_HOST')
 rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.getenv('RABBITMQ_PASSWORD'))
@@ -16,7 +16,7 @@ channel = connection.channel(channel_number=1)
 channel.queue_declare(queue='temperatura')
 
 def callback(ch, method, properties, body):
-    data = json.load(body)
+    data = json.loads(body.decode('utf-8'))
     linea = f"{data['timestamp']},{data['temperature']},{data['humidity']},{data['air_quality']}"
     with open('/data/temperatura.csv', 'a') as f:
         f.write(linea + '\n')

@@ -50,5 +50,5 @@ def get_seguridad():
     return jsonify(json_data)
 
 if __name__ == '__main__':
-    time.sleep(10)  # Wait for RabbitMQ container to initialize
+    time.sleep(20)  # Wait for RabbitMQ container to initialize
     app.run(host='0.0.0.0', port=5000)

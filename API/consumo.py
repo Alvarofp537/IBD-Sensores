@@ -5,7 +5,7 @@ with open('/data/consumo.csv', 'w') as f:
     # Create csv with header
     f.write('timestamp,power_consumption,voltage,current,power_factor\n')
 
-time.sleep(10)  # Wait for RabbitMQ container to initialize
+time.sleep(20)  # Wait for RabbitMQ container to initialize
 
 rabbitmq_host = os.getenv('RABBITMQ_HOST')
 rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.getenv('RABBITMQ_PASSWORD'))
@@ -16,7 +16,7 @@ channel = connection.channel(channel_number=3)
 channel.queue_declare(queue='consumo')
 
 def callback(ch, method, properties, body):
-    data = json.load(body)
+    data = json.loads(body.decode('utf-8'))
     linea = f"{data['timestamp']},{data['power_consumption']},{data['voltage']},{data['current']}, {data['power_factor']}"
     with open('/data/consumo.csv', 'a') as f:
         f.write(linea + '\n')
