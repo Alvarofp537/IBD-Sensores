@@ -2,11 +2,15 @@ import json
 import random
 import time    
 import requests
+import os 
 
+# Obtener el índice del sensor a partir del hostname del contenedor
+SENSOR_ID = os.getenv("HOSTNAME")
 
 def generate_power_data():
     """Genera datos simulados de consumo de energía."""
     data = {
+        "id": SENSOR_ID,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "power_consumption": round(random.uniform(0.1, 10.0), 2),  # kWh
         "voltage": round(random.uniform(210, 240), 2),  # V
