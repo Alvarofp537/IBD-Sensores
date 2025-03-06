@@ -12,7 +12,10 @@ services:
         RABBITMQ_DEFAULT_USER: building
         RABBITMQ_DEFAULT_PASS: password
   api-gateway:
-    image: miguelgp13/api-gateway:1.0
+    # image: miguelgp13/api-gateway:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.api
     ports:
       - "8080:8080"
     networks:
@@ -29,7 +32,10 @@ services:
       - lector-service
 
   consumo-service:
-    image: miguelgp13/consumo:2.0
+    # image: miguelgp13/consumo:2.0
+    build:
+      context: .
+      dockerfile: Dockerfile.consumo
     volumes:
       - almacen:/data
     networks:
@@ -40,7 +46,10 @@ services:
         - RABBITMQ_PASSWORD=password
 
   ocupacion-service:
-    image: miguelgp13/ocupacion:2.0
+    # image: miguelgp13/ocupacion:2.0
+    build:
+      context: .
+      dockerfile: Dockerfile.ocupacion
     volumes:
       - almacen:/data
     networks:
@@ -51,7 +60,10 @@ services:
         - RABBITMQ_PASSWORD=password
 
   seguridad-service:
-    image: miguelgp13/seguridad:2.0
+    # image: miguelgp13/seguridad:2.0
+    build:
+      context: .
+      dockerfile: Dockerfile.seguridad
     volumes:
       - almacen:/data
     networks:
@@ -62,7 +74,10 @@ services:
         - RABBITMQ_PASSWORD=password
 
   temperatura-service:
-    image: miguelgp13/temperatura:2.0
+    # image: miguelgp13/temperatura:2.0
+    build:
+      context: .
+      dockerfile: Dockerfile.temperatura
     volumes:
       - almacen:/data
     networks:
@@ -73,51 +88,15 @@ services:
         - RABBITMQ_PASSWORD=password
 
   lector-service:
-    image: miguelgp13/lector:3.0
+    # image: miguelgp13/lector:3.0
+    build:
+      context: .
+      dockerfile: Dockerfile.lector
 
     volumes:
       - almacen:/data
     networks:
       - building-network
-
-  temperature:
-    image: alvarofp/sensor-temperatura
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 4
-    
-
-  occupation:
-    image: alvarofp/sensor-ocupacion
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 6
-    
-   
-  power:
-    image: alvarofp/sensor-power
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 7
-    
-
-  cameras:
-    image: alvarofp/sensor-camara
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 3
 
 volumes:
   almacen:

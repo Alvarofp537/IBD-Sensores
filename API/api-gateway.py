@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import requests
-import pika, os, time
+import pika, os, time, json
 
 app = Flask(__name__)
 
@@ -8,31 +8,23 @@ app = Flask(__name__)
 
 ### Temperatura ###
 @app.route('/temperatura', methods=['GET'])
-def get_temperature():
+def get_temperatura():
     # Call lector to access the data
     try:
-        response = requests.get('http://lector-service:5000/temperature')
+        response = requests.get('http://lector-service:5000/temperatura')
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
 
 @app.route('/temperatura', methods=['POST'])
-def post_temperature():
+def post_temperatura():
     try:
+        message = json.dumps(request.json)
         temperatura_channel.basic_publish(exchange='',
                           routing_key='temperatura',
-                          body=request.json)
+                          body=message)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Temperature unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Temperatura añadida correctamente'})
 
@@ -51,20 +43,12 @@ def get_ocupacion():
 @app.route('/ocupacion', methods=['POST'])
 def post_ocupacion():
     try:
+        message = json.dumps(request.json)
         ocupacion_channel.basic_publish(exchange='',
                           routing_key='ocupacion',
-                          body=request.json)
+                          body=message)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Ocupacion unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Ocupacion añadida correctamente'})
 
@@ -83,20 +67,12 @@ def get_consumo():
 @app.route('/consumo', methods=['POST'])
 def post_consumo():
     try:
+        message = json.dumps(request.json)
         consumo_channel.basic_publish(exchange='',
                           routing_key='consumo',
-                          body=request.json)
+                          body=message)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Consumo unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Consumo añadida correctamente'})
 
@@ -115,29 +91,19 @@ def get_seguridad():
 @app.route('/seguridad', methods=['POST'])
 def post_seguridad():
     try:
+        message = json.dumps(request.json)
         seguridad_channel.basic_publish(exchange='',
                           routing_key='seguridad',
-                          body=request.json)
+                          body=message)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Seguridad unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Seguridad añadida correctamente'})
 
 ######
 
 if __name__ == '__main__':
-    time.sleep(10)  # Wait for RabbitMQ container to initialize
-    app.run(host='0.0.0.0', port=8080)
-
+    time.sleep(20)  # Wait for RabbitMQ container to initialize
     rabbitmq_host = os.getenv('RABBITMQ_HOST')
     rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.getenv('RABBITMQ_PASSWORD'))
 
@@ -150,6 +116,5 @@ if __name__ == '__main__':
     consumo_channel.queue_declare(queue='consumo')
     seguridad_channel = connection.channel(channel_number=4)
     seguridad_channel.queue_declare(queue='seguridad')
-
-
+    app.run(host='0.0.0.0', port=8080)
     connection.close()
