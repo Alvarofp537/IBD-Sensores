@@ -2,7 +2,10 @@ import json
 import random
 import time
 import requests
+import os 
 
+# Obtener el índice del sensor a partir del hostname del contenedor
+SENSOR_ID = os.getenv("HOSTNAME")
 def generate_status_data():
     """Genera datos simulados de estado y alertas."""
     alerts = [
@@ -15,6 +18,7 @@ def generate_status_data():
     alert = random.choices(alerts, weights=[0.3, 0.2, 0.2, 0.3])[0]
     level=random.choices(alert_levels, weights=[0.3, 0.4, 0.3])[0]
     data = {
+        "id": SENSOR_ID,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "status": random.choice(["active", "inactive"]),  # Estado del sistema
         "alerts": alert,  # Alerta generada

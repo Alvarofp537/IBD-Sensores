@@ -2,7 +2,10 @@ import json
 import random
 import time    
 import requests
+import os 
 
+# Obtener el índice del sensor a partir del hostname del contenedor
+SENSOR_ID = os.getenv("HOSTNAME")
 
 def get_air_quality_index():
     """Simula el índice de calidad del aire basado en valores aleatorios."""
@@ -12,6 +15,7 @@ def get_air_quality_index():
 def generate_sensor_data():
     """Genera datos simulados de sensores ambientales."""
     data = {
+        "id": SENSOR_ID,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "temperature": round(random.uniform(15.0, 35.0), 2),  # Temperatura en °C
         "humidity": round(random.uniform(30.0, 80.0), 2),  # Humedad en %

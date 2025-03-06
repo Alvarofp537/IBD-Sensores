@@ -2,10 +2,15 @@ import json
 import random
 import time
 import requests
+import os 
+
+# Obtener el índice del sensor a partir del hostname del contenedor
+SENSOR_ID = os.getenv("HOSTNAME")
 
 def generate_occupancy_data():
     """Genera datos simulados de ocupación y movimiento en una zona."""
     data = {
+        "id": SENSOR_ID,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "occupancy": random.randint(0, 50),  # Número de personas en la zona
         "movement": random.choice([True, False]),  # Si hay movimiento o no
