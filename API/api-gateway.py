@@ -8,31 +8,22 @@ app = Flask(__name__)
 
 ### Temperatura ###
 @app.route('/temperatura', methods=['GET'])
-def get_temperature():
+def get_temperatura():
     # Call lector to access the data
     try:
-        response = requests.get('http://lector-service:5000/temperature')
+        response = requests.get('http://lector-service:5000/temperatura')
         return jsonify(response.json())
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
 
 @app.route('/temperatura', methods=['POST'])
-def post_temperature():
+def post_temperatura():
     try:
         temperatura_channel.basic_publish(exchange='',
                           routing_key='temperatura',
                           body=request.json)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Temperature unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Temperatura añadida correctamente'})
 
@@ -56,15 +47,6 @@ def post_ocupacion():
                           body=request.json)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Ocupacion unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Ocupacion añadida correctamente'})
 
@@ -88,15 +70,6 @@ def post_consumo():
                           body=request.json)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Consumo unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Consumo añadida correctamente'})
 
@@ -120,15 +93,6 @@ def post_seguridad():
                           body=request.json)
     except requests.exceptions.RequestException:
         return jsonify({'error': 'Seguridad unavailable'}), 503
-    # Enviar notificación
-    # try:
-    #     requests.post(
-    #         'http://notification-service:5000/notify',
-    #         json={'user_id': user_id, 'message': f'Book {book_id} borrowed successfully'}
-    #     )
-    # except requests.exceptions.RequestException:
-    #     # Log error but don't fail the request
-    #     print('Notification service unavailable')
 
     return jsonify({'message': 'Seguridad añadida correctamente'})
 

@@ -18,7 +18,7 @@ channel.queue_declare(queue='consumo')
 def callback(ch, method, properties, body):
     data = json.load(body)
     linea = f"{data['timestamp']},{data['power_consumption']},{data['voltage']},{data['current']}, {data['power_factor']}"
-    with open('data/consumo.csv', 'a') as f:
+    with open('/data/consumo.csv', 'a') as f:
         f.write(linea + '\n')
 
 channel.basic_consume(queue='consumo', on_message_callback=callback, auto_ack=True)
