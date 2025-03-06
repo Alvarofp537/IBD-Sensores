@@ -3,7 +3,7 @@ import json
 
 with open('/data/consumo.csv', 'w') as f:
     # Create csv with header
-    f.write('timestamp,power_consumption,voltage,current,power_factor\n')
+    f.write('id,timestamp,power_consumption,voltage,current,power_factor\n')
 
 time.sleep(20)  # Wait for RabbitMQ container to initialize
 

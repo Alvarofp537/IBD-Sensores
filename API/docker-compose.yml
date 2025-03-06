@@ -44,6 +44,7 @@ services:
         - RABBITMQ_HOST=rabbitmq
         - RABBITMQ_USERNAME=building
         - RABBITMQ_PASSWORD=password
+        - RABBITMQ_HEARTBEAT=1800
 
   ocupacion-service:
     image: miguelgp13/ocupacion:4.0

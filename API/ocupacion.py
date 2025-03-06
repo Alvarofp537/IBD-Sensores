@@ -3,7 +3,7 @@ import json
 
 with open('/data/ocupacion.csv', 'w') as f:
     # Create csv with header
-    f.write('timestamp,occupancy,movement,location,dwell_time\n')
+    f.write('id,timestamp,occupancy,movement,location,dwell_time\n')
 
 time.sleep(20)  # Wait for RabbitMQ container to initialize
 
