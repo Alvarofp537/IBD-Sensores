@@ -18,7 +18,7 @@ channel.queue_declare(queue='ocupacion')
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('utf-8'))
     try:
-        linea = f"{data['timestamp']},{data['occupancy']},{data['movement']},{data['location']}, {data['dwell_time']}"
+        linea = f"{data['id']},{data['timestamp']},{data['occupancy']},{data['movement']},{data['location']}, {data['dwell_time']}"
         with open('/data/ocupacion.csv', 'a') as f:
             f.write(linea + '\n')
     except:

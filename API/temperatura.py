@@ -3,7 +3,7 @@ import json
 
 with open('/data/temperatura.csv', 'w') as f:
     # Create csv with header
-    f.write('timestamp,temperature,humidity,air_quality\n')
+    f.write('id,timestamp,temperature,humidity,air_quality\n')
 
 time.sleep(20)  # Wait for RabbitMQ container to initialize
 
@@ -18,7 +18,7 @@ channel.queue_declare(queue='temperatura')
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('utf-8'))
     try:
-        linea = f"{data['timestamp']},{data['temperature']},{data['humidity']},{data['air_quality']}"
+        linea = f"{data['id']},{data['timestamp']},{data['temperature']},{data['humidity']},{data['air_quality']}"
         with open('/data/temperatura.csv', 'a') as f:
             f.write(linea + '\n')
     except:

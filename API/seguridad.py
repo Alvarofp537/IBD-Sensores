@@ -18,7 +18,7 @@ channel.queue_declare(queue='seguridad')
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('utf-8'))
     try:
-        linea = f"{data['timestamp']},{data['status']},{data['alerts']},{data['alert_level']}"
+        linea = f"{data['id']},{data['timestamp']},{data['status']},{data['alerts']},{data['alert_level']}"
         with open('/data/seguridad.csv', 'a') as f:
             f.write(linea + '\n')
     except:
