@@ -28,6 +28,8 @@ API:
         - Con un csv donde guarda los datos
 URL/tipo_dato con 2 opciones, GET y POST. Hería falta DELETE?? No hay PUT
 
+Hemos implementado en la api una consistencia frente a errores que ocurre cuando llega información de un sensor a una tabla que no es, en caso de no tener este metodo, el sistema caería y daría un error.
+
 
 ### Sensores
 Hemos implementado las imágenes (mediante un dockerfile) de los 4 sensores y hemos creado un docker-compose para levantar los contenedores.
