@@ -117,4 +117,3 @@ if __name__ == '__main__':
     seguridad_channel = connection.channel(channel_number=4)
     seguridad_channel.queue_declare(queue='seguridad')
     app.run(host='0.0.0.0', port=8080)
-    connection.close()
