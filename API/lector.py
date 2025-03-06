@@ -14,7 +14,7 @@ def get_temperatura():
     # Call lector to access the data
     with open('/data/temperatura.csv', 'r') as f:
         response = f.read()
-    contenido = response.content.decode('utf-8')
+    contenido = response
     json_data = csv_to_json(contenido)
     print('Leyendo temperatura')
     return jsonify(json_data)
@@ -24,7 +24,7 @@ def get_ocupacion():
     # Call lector to access the data
     with open('/data/ocupacion.csv', 'r') as f:
         response = f.read()
-    contenido = response.content.decode('utf-8')
+    contenido = response
     json_data = csv_to_json(contenido)
     print('Leyendo ocupacion')
     return jsonify(json_data)
@@ -34,7 +34,7 @@ def get_consumo():
     # Call lector to access the data
     with open('/data/consumo.csv', 'r') as f:
         response = f.read()
-    contenido = response.content.decode('utf-8')
+    contenido = response
     json_data = csv_to_json(contenido)
     print('Leyendo consumo')
     return jsonify(json_data)
@@ -44,7 +44,7 @@ def get_seguridad():
     # Call lector to access the data
     with open('/data/seguridad.csv', 'r') as f:
         response = f.read()
-    contenido = response.content.decode('utf-8')
+    contenido = response
     json_data = csv_to_json(contenido)
     print('Leyendo seguridad')
     return jsonify(json_data)

@@ -1,7 +1,7 @@
 import pika, os, time
 import json
 
-with open('/data/seguridad.csv', 'a') as f:
+with open('/data/seguridad.csv', 'w') as f:
     # Create csv with header
     f.write('timestamp,status,alerts,alert_level\n')
 

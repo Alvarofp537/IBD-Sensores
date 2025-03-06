@@ -1,7 +1,7 @@
 import pika, os, time
 import json
 
-with open('/data/consumo.csv', 'a') as f:
+with open('/data/consumo.csv', 'w') as f:
     # Create csv with header
     f.write('timestamp,power_consumption,voltage,current,power_factor\n')
 

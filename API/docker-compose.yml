@@ -15,7 +15,7 @@ services:
     # image: miguelgp13/api-gateway:1.0
     build:
       context: .
-      dockerfile: Dockerfile.api-gateway
+      dockerfile: Dockerfile.api
     ports:
       - "8080:8080"
     networks:
@@ -97,45 +97,6 @@ services:
       - almacen:/data
     networks:
       - building-network
-
-  temperature:
-    image: alvarofp/sensor-temperatura
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 4
-    
-
-  occupation:
-    image: alvarofp/sensor-ocupacion
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 6
-    
-   
-  power:
-    image: alvarofp/sensor-power
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 7
-    
-
-  cameras:
-    image: alvarofp/sensor-camara
-    networks:
-      - building-network
-    depends_on:
-      - api-gateway
-    deploy:
-      replicas: 3
 
 volumes:
   almacen:

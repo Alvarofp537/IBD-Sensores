@@ -1,7 +1,7 @@
 import pika, os, time
 import json
 
-with open('/data/ocupacion.csv', 'a') as f:
+with open('/data/ocupacion.csv', 'w') as f:
     # Create csv with header
     f.write('timestamp,occupancy,movement,location,dwell_time\n')
 
