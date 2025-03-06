@@ -14,11 +14,11 @@ Hay que generar datos aleatorios.
 - [x] 3. Crear sensores. (Mandar información mediante POST)
 - [x] 4. Crear códigos python para la API
 - [x] 5. Preparar dockerfiles. (Uno por cada servicio)
-- [ ] 6. Crear docker compose
+- [x] 6. Crear docker compose
 - [ ] 7. Comprobar funcionamiento
 - [x] 8. Subir imagenes almacenes 
-- [ ] 8.5 Subir imagenes sensores para no hacer build en docker compose
-- [ ] 9. cambiar url destino de los post de los sensores
+- [x] 8.5 Subir imagenes sensores para no hacer build en docker compose
+- [x] 9. cambiar url destino de los post de los sensores
 
 ---
 
