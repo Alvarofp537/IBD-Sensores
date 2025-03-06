@@ -48,10 +48,10 @@ Este documento proporciona una guía rápida para desplegar el proyecto de contr
 ## Obtener información del ¿servicio?
 
 Para obtener la información de cada métrica hay que hacer un GET a `http://localhost:8080/métrica`:
-    - Temperatura y humedad: http://localhost:8080/temperatura
-    - Ocupación y movimiento: http://localhost:8080/ocupacion
-    - Consumo de energía: http://localhost:8080/consumo
-    - Seguridad: http://localhost:8080/seguridad
+- Temperatura y humedad: http://localhost:8080/temperatura
+- Ocupación y movimiento: http://localhost:8080/ocupacion
+- Consumo de energía: http://localhost:8080/consumo
+- Seguridad: http://localhost:8080/seguridad
 
 Devuelve un json con todos los datos que se tienen hasta la fecha de esa métrica.
     
