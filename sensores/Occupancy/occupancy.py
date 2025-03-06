@@ -15,7 +15,7 @@ def generate_occupancy_data():
     return data
 
 
-API_URL = "http://api-gateway:8080/ocupacion"  # Endpoint de la API de destino
+API_URL = "http://localhost:8080/ocupacion"  # Endpoint de la API de destino
 
 if __name__ == "__main__":
     while True:
