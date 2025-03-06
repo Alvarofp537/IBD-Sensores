@@ -5,22 +5,34 @@ services:
     image: alvarofp/sensor-temperatura:1.0
     deploy:
       replicas: 4
+    networks:
+      - building-network
     
 
   occupation:
     image: alvarofp/sensor-ocupacion:1.0
     deploy:
       replicas: 6
-    
+    networks:
+      - building-network
    
   power:
     image: alvarofp/sensor-power:1.0
     deploy:
       replicas: 7
+    networks:
+      - building-network
     
 
   cameras:
     image: alvarofp/sensor-camara:1.0
     deploy:
       replicas: 3
+    networks:
+      - building-network
+
+
+networks:
+  building-network:
+    external: True
     

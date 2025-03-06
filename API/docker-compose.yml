@@ -103,5 +103,5 @@ volumes:
 
 networks:
   building-network:
-    driver: bridge
+    external: True
     
