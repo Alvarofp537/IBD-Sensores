@@ -19,7 +19,7 @@ def generate_sensor_data():
     }
     return data
     
-API_URL = "http://localhost:5000/data"  # Endpoint de la API de destino
+API_URL = "http://localhost:8080/temperatura"  # Endpoint de la API de destino
 
 if __name__ == "__main__":
     while True:
