@@ -68,6 +68,9 @@ Devuelve un json con todos los datos que se tienen hasta la fecha de esa métric
 También proveemos el `lector.ipynb` y `lector.py`, con la función python que permite descargar los datos y meterlos en un DataFrame de pandas
 
 
+Para ver el funcionamiento de RabbitMQ:
+- http://localhost:15672/
+
 ## Funcionamiento del servicio:
 
 Existen diversos sensores de distintos tipos (seguridad, temperatura y humedad, consumo y ocupación) que recopilan información a una determinada frecuencia, cada uno de estos sensores se hospeda en un contenedor docker y envían su información recopilada a la API en formato JSON. 
