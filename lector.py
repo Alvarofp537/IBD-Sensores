@@ -9,4 +9,7 @@ def get_datos(metrica):
         raise ValueError("Métrica no válida: ['temperatura', 'consumo', 'ocupacion', 'seguridad']")
     data = requests.get(f'http://localhost:8080/{metrica}')
     df = pd.DataFrame(data.json())
-    return df.set_index('id')
+    try:
+        return df.set_index('id')
+    except:
+        return df
