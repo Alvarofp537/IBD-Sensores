@@ -49,7 +49,7 @@ Este documento proporciona una guía rápida para desplegar el proyecto de contr
 
     ```bash
     cd ..
-    cd Sensores/
+    cd sensores/
     docker compose up -d
     ```
 
