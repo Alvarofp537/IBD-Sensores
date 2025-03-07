@@ -110,9 +110,7 @@ def get_consumo():
 def post_consumo():
     try:
         message = json.dumps(request.json)
-        consumo_channel.basic_publish(exchange='',
-                          routing_key='consumo',
-                          body=message)
+        publish_message(ocupacion_channel, 'ocupacion', message)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
