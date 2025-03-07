@@ -11,7 +11,7 @@ services:
     environment:
         RABBITMQ_DEFAULT_USER: building
         RABBITMQ_DEFAULT_PASS: password
-        RABBITMQ_HEARTBEAT: 18000  # Ajusta el tiempo de latido en segundos
+        RABBITMQ_HEARTBEAT: 600  # Ajusta el tiempo de latido en segundos
         # RABBITMQ_CONNECTION_TIMEOUT=300000  # Ajusta el tiempo de espera de la conexión en milisegundos
   api-gateway:
     # image: miguelgp13/api-gateway:3.0
@@ -27,6 +27,7 @@ services:
         - RABBITMQ_USERNAME=building
         - RABBITMQ_PASSWORD=password
     depends_on:
+      - rabbitmq
       - consumo-service
       - ocupacion-service
       - seguridad-service
@@ -46,13 +47,13 @@ services:
         - RABBITMQ_HOST=rabbitmq
         - RABBITMQ_USERNAME=building
         - RABBITMQ_PASSWORD=password
-        - RABBITMQ_HEARTBEAT=1800
-
+    depends_on:
+      - rabbitmq
   ocupacion-service:
-    image: miguelgp13/ocupacion:4.0
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.ocupacion
+    # image: miguelgp13/ocupacion:4.0
+    build:
+      context: .
+      dockerfile: Dockerfile.ocupacion
     volumes:
       - almacen:/data
     networks:
@@ -61,6 +62,8 @@ services:
         - RABBITMQ_HOST=rabbitmq
         - RABBITMQ_USERNAME=building
         - RABBITMQ_PASSWORD=password
+    depends_on:
+      - rabbitmq
 
   seguridad-service:
     image: miguelgp13/seguridad:4.0
@@ -75,6 +78,8 @@ services:
         - RABBITMQ_HOST=rabbitmq
         - RABBITMQ_USERNAME=building
         - RABBITMQ_PASSWORD=password
+    depends_on:
+      - rabbitmq
 
   temperatura-service:
     image: miguelgp13/temperatura:4.0
@@ -89,6 +94,8 @@ services:
         - RABBITMQ_HOST=rabbitmq
         - RABBITMQ_USERNAME=building
         - RABBITMQ_PASSWORD=password
+    depends_on:
+      - rabbitmq
 
   lector-service:
     image: miguelgp13/lector:3.0
@@ -100,6 +107,8 @@ services:
       - almacen:/data
     networks:
       - building-network
+    depends_on:
+      - rabbitmq
 
 volumes:
   almacen:

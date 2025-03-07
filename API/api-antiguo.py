@@ -5,52 +5,6 @@ import pika, os, time, json
 app = Flask(__name__)
 
 
-def connect_rabbitmq():
-    """Establece la conexión con RabbitMQ y maneja reintentos."""
-    max_retries = 5
-    retry_delay = 5  # segundos
-
-    for attempt in range(max_retries):
-        try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters(
-                host=os.getenv('RABBITMQ_HOST'),
-                credentials=pika.PlainCredentials(
-                    os.getenv('RABBITMQ_USERNAME'),
-                    os.getenv('RABBITMQ_PASSWORD')
-                ),
-                heartbeat=600,  # Evita desconexión por inactividad
-                blocked_connection_timeout=300  # Espera si la conexión está bloqueada
-            ))
-            return connection
-        except pika.exceptions.AMQPConnectionError as e:
-            print(f"Intento {attempt + 1} de {max_retries}: No se pudo conectar a RabbitMQ - {e}")
-            time.sleep(retry_delay)
-
-    raise Exception("No se pudo conectar a RabbitMQ después de varios intentos.")
-
-
-def publish_message(channel, queue, message):
-    """Publica un mensaje en la cola y maneja la reconexión si es necesario."""
-    try:
-        channel.basic_publish(exchange='', routing_key=queue, body=message)
-    except (pika.exceptions.AMQPConnectionError, pika.exceptions.ChannelWrongStateError):
-        print("Conexión a RabbitMQ perdida. Reintentando...")
-        global CONNECTION, temperatura_channel, ocupacion_channel, consumo_channel, seguridad_channel
-
-        CONNECTION = connect_rabbitmq()
-        temperatura_channel = CONNECTION.channel(channel_number=1)
-        temperatura_channel.queue_declare(queue='temperatura')
-        ocupacion_channel = CONNECTION.channel(channel_number=2)
-        ocupacion_channel.queue_declare(queue='ocupacion')
-        consumo_channel = CONNECTION.channel(channel_number=3)
-        consumo_channel.queue_declare(queue='consumo')
-        seguridad_channel = CONNECTION.channel(channel_number=4)
-        seguridad_channel.queue_declare(queue='seguridad')
-
-        # Reintenta enviar el mensaje
-        channel.basic_publish(exchange='', routing_key=queue, body=message)
-
-
 
 ### Temperatura ###
 @app.route('/temperatura', methods=['GET'])
@@ -69,6 +23,8 @@ def post_temperatura():
         temperatura_channel.basic_publish(exchange='',
                           routing_key='temperatura',
                           body=message)
+    except requests.exceptions.RequestException:
+        return jsonify({'error': 'Temperature unavailable'}), 503
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -90,9 +46,13 @@ def get_ocupacion():
 def post_ocupacion():
     try:
         message = json.dumps(request.json)
-        publish_message(ocupacion_channel, 'ocupacion', message)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        ocupacion_channel.basic_publish(exchange='',
+                          routing_key='ocupacion',
+                          body=message)
+    except requests.exceptions.RequestException:
+        return jsonify({'error': 'Ocupacion unavailable'}), 503
+
+    return jsonify({'message': 'Ocupacion añadida correctamente'})
 
 ######
 
@@ -113,8 +73,8 @@ def post_consumo():
         consumo_channel.basic_publish(exchange='',
                           routing_key='consumo',
                           body=message)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except requests.exceptions.RequestException:
+        return jsonify({'error': 'Consumo unavailable'}), 503
 
     return jsonify({'message': 'Consumo añadida correctamente'})
 
@@ -137,27 +97,25 @@ def post_seguridad():
         seguridad_channel.basic_publish(exchange='',
                           routing_key='seguridad',
                           body=message)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except requests.exceptions.RequestException:
+        return jsonify({'error': 'Seguridad unavailable'}), 503
 
     return jsonify({'message': 'Seguridad añadida correctamente'})
 
 ######
 
 if __name__ == '__main__':
-    time.sleep(20)  # Espera para que RabbitMQ esté listo
-    CONNECTION = connect_rabbitmq()
+    time.sleep(20)  # Wait for RabbitMQ container to initialize
+    rabbitmq_host = os.getenv('RABBITMQ_HOST')
+    rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.getenv('RABBITMQ_PASSWORD'))
 
+    CONNECTION = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host,credentials=rabbitmq_credentials))
     temperatura_channel = CONNECTION.channel(channel_number=1)
     temperatura_channel.queue_declare(queue='temperatura')
-
     ocupacion_channel = CONNECTION.channel(channel_number=2)
     ocupacion_channel.queue_declare(queue='ocupacion')
-
     consumo_channel = CONNECTION.channel(channel_number=3)
     consumo_channel.queue_declare(queue='consumo')
-
     seguridad_channel = CONNECTION.channel(channel_number=4)
     seguridad_channel.queue_declare(queue='seguridad')
-
     app.run(host='0.0.0.0', port=8080)

@@ -21,6 +21,7 @@ def callback(ch, method, properties, body):
         linea = f"{data['id']},{data['timestamp']},{data['occupancy']},{data['movement']},{data['location']}, {data['dwell_time']}"
         with open('/data/ocupacion.csv', 'a') as f:
             f.write(linea + '\n')
+        print(f'Ocupación añadida corerctamente: {linea}')
     except:
         print('El json no tiene los parámetros correctos: timestamp,occupancy,movement,location,dwell_time')
 
