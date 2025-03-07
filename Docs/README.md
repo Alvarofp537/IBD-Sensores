@@ -62,6 +62,8 @@ Para obtener la información de cada métrica hay que hacer un GET a `http://loc
 - Ocupación y movimiento: http://localhost:8080/ocupacion
 - Consumo de energía: http://localhost:8080/consumo
 - Seguridad: http://localhost:8080/seguridad
+Para ver el funcionamiento de RabbitMQ:
+- http://localhost:15672/
 
 Devuelve un json con todos los datos que se tienen hasta la fecha de esa métrica.
 
