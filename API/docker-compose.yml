@@ -8,6 +8,11 @@ services:
         - "15672:15672"
     networks:
       - building-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 300M
     environment:
         RABBITMQ_DEFAULT_USER: building
         RABBITMQ_DEFAULT_PASS: password
