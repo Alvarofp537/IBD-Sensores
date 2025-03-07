@@ -86,4 +86,4 @@ Por último. la lectura de tablas lo realiza un microservicio que se encarga de 
 También proveemos una función python para leer el json de manera sencilla.
 
 > [!NOTE]  
-> Los sensores de ocupación dan un error al enviar el mensaje desde el sensor (al enviarlo desde RABBITMQ se añade sin dar error), pero misteriosamente, pero a dar error, el mensaje llega al servicio que guarda ocupción. No hemos conseguido averiguar por qué sucede este error ni como solucionarlo.
+> Los sensores de ocupación dan un error al enviar el mensaje desde el sensor (al enviarlo desde RABBITMQ se añade sin dar error), pero misteriosamente, pese a dar error, el mensaje llega al servicio que guarda ocupción. No hemos conseguido averiguar por qué sucede este error ni como solucionarlo.
