@@ -13,9 +13,9 @@ def generate_occupancy_data():
         "id": SENSOR_ID,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "occupancy": random.randint(0, 50),  # Número de personas en la zona
-        "movement": random.choice([True, False]),  # Si hay movimiento o no
+        "movement": random.choice(["True", "False"]),  # Si hay movimiento o no
         "location": f"Zone-{random.randint(1, 5)}",  # ID de la zona
-        "dwell_time": random.randint(1, 120)  # Tiempo de permanencia en minutos
+        "dwell_time": random.randint(1, 60)  # Tiempo de permanencia en minutos
     }
     return data
 

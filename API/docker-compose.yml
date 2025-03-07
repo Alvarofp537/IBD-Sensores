@@ -8,11 +8,7 @@ services:
         - "15672:15672"
     networks:
       - building-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.01'
-          memory: 300M
+
     environment:
         RABBITMQ_DEFAULT_USER: building
         RABBITMQ_DEFAULT_PASS: password
@@ -37,6 +33,7 @@ services:
       - seguridad-service
       - temperatura-service
       - lector-service
+      - rabbitmq
 
   consumo-service:
     image: miguelgp13/consumo:4.0
