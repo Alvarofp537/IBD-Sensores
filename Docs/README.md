@@ -6,11 +6,11 @@ Este documento proporciona una guía rápida para desplegar el proyecto de contr
 ## Índice
 1. [Requisitos Previos](#requisitos-previos)
 2. [Pasos para Iniciar](#pasos-para-iniciar)
-    1. [Clonar el Repositorio](#clonar-el-repositorio)
-    2. [Crear la red para la infraestructura](#crear-la-red-para-la-infraestructura)
-    3. [Levantar la API](#levantar-la-api)
-    4. [Levantar los Sensores](#levantar-los-sensores)
-3. [Obtener información del servicio](#obtener-informacion-del-servicio)
+    1. [Clonar el Repositorio](#**clonar-el-repositorio**)
+    2. [Crear la red para la infraestructura](#**crear-la-red-para-la-infraestructura**)
+    3. [Levantar la API](#**levantar-la-api**)
+    4. [Levantar los Sensores](#**levantar-los-sensores**)
+3. [Obtener información del servicio](#obtener-información-del-servicio)
 4. [Funcionamiento del servicio](#funcionamiento-del-servicio)
 
 ## Requisitos Previos
