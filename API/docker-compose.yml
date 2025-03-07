@@ -15,10 +15,10 @@ services:
         RABBITMQ_HEARTBEAT: 600  # Ajusta el tiempo de latido en segundos
         # RABBITMQ_CONNECTION_TIMEOUT=300000  # Ajusta el tiempo de espera de la conexión en milisegundos
   api-gateway:
-    # image: miguelgp13/api-gateway:4.0
-    build:
-      context: .
-      dockerfile: Dockerfile.api
+    image: miguelgp13/api-gateway:4.0
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.api
     ports:
       - "8080:8080"
     networks:
