@@ -19,7 +19,7 @@ services:
         RABBITMQ_HEARTBEAT: 600  # Ajusta el tiempo de latido en segundos
         # RABBITMQ_CONNECTION_TIMEOUT=300000  # Ajusta el tiempo de espera de la conexión en milisegundos
   api-gateway:
-    # image: miguelgp13/api-gateway:3.0
+    # image: miguelgp13/api-gateway:4.0
     build:
       context: .
       dockerfile: Dockerfile.api
@@ -55,10 +55,10 @@ services:
     depends_on:
       - rabbitmq
   ocupacion-service:
-    # image: miguelgp13/ocupacion:4.0
-    build:
-      context: .
-      dockerfile: Dockerfile.ocupacion
+    image: miguelgp13/ocupacion:4.0
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.ocupacion
     volumes:
       - almacen:/data
     networks:
