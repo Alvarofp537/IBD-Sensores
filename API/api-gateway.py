@@ -4,6 +4,32 @@ import pika, os, time, json
 
 app = Flask(__name__)
 
+rabbitmq_host = os.getenv('RABBITMQ_HOST')
+rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.getenv('RABBITMQ_PASSWORD'))
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host,credentials=rabbitmq_credentials))
+temperatura_channel = connection.channel(channel_number=1)
+temperatura_channel.queue_declare(queue='temperatura')
+ocupacion_channel = connection.channel(channel_number=2)
+ocupacion_channel.queue_declare(queue='ocupacion')
+consumo_channel = connection.channel(channel_number=3)
+consumo_channel.queue_declare(queue='consumo')
+seguridad_channel = connection.channel(channel_number=4)
+seguridad_channel.queue_declare(queue='seguridad')
+
+
+
+def reconnect_if_needed(connection, rabbitmq_host, credentials):
+    if connection.is_open:
+        return connection
+    else:
+        # Intenta reconectar si la conexión está cerrada
+        return pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host, credentials=credentials))
+
+# Usar esta función para asegurarte de que la conexión está abierta antes de usarla.
+connection = reconnect_if_needed(connection, rabbitmq_host, pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'), os.getenv('RABBITMQ_PASSWORD')))
+
+
 
 
 ### Temperatura ###
@@ -18,6 +44,7 @@ def get_temperatura():
 
 @app.route('/temperatura', methods=['POST'])
 def post_temperatura():
+    connection = reconnect_if_needed(connection, rabbitmq_host, pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'), os.getenv('RABBITMQ_PASSWORD')))
     try:
         message = json.dumps(request.json)
         temperatura_channel.basic_publish(exchange='',
@@ -66,6 +93,7 @@ def get_consumo():
 
 @app.route('/consumo', methods=['POST'])
 def post_consumo():
+    connection = reconnect_if_needed(connection, rabbitmq_host, pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'), os.getenv('RABBITMQ_PASSWORD')))
     try:
         message = json.dumps(request.json)
         consumo_channel.basic_publish(exchange='',
@@ -90,6 +118,7 @@ def get_seguridad():
     
 @app.route('/seguridad', methods=['POST'])
 def post_seguridad():
+    connection = reconnect_if_needed(connection, rabbitmq_host, pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'), os.getenv('RABBITMQ_PASSWORD')))
     try:
         message = json.dumps(request.json)
         seguridad_channel.basic_publish(exchange='',
@@ -104,16 +133,4 @@ def post_seguridad():
 
 if __name__ == '__main__':
     time.sleep(20)  # Wait for RabbitMQ container to initialize
-    rabbitmq_host = os.getenv('RABBITMQ_HOST')
-    rabbitmq_credentials = pika.PlainCredentials(os.getenv('RABBITMQ_USERNAME'),os.getenv('RABBITMQ_PASSWORD'))
-
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host,credentials=rabbitmq_credentials))
-    temperatura_channel = connection.channel(channel_number=1)
-    temperatura_channel.queue_declare(queue='temperatura')
-    ocupacion_channel = connection.channel(channel_number=2)
-    ocupacion_channel.queue_declare(queue='ocupacion')
-    consumo_channel = connection.channel(channel_number=3)
-    consumo_channel.queue_declare(queue='consumo')
-    seguridad_channel = connection.channel(channel_number=4)
-    seguridad_channel.queue_declare(queue='seguridad')
     app.run(host='0.0.0.0', port=8080)

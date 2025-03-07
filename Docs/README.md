@@ -4,9 +4,8 @@ Este documento proporciona una guía rápida para desplegar el proyecto de contr
 
 ## Requisitos Previos
 
--   **Docker:** Asegúrate de tener Docker instalado en tu sistema. Puedes descargarlo desde [https://www.docker.com/get-started](https://www.docker.com/get-started).
--   **Docker Compose:** Docker Compose debe estar instalado junto con Docker.
--   **Git:** Necesitarás Git para clonar el repositorio.
+-   **Docker:** Asegúrate de tener Docker y Docker Compose instalado en tu sistema. Puedes descargarlo desde [https://www.docker.com/get-started](https://www.docker.com/get-started).
+-   **Git:** Necesitarás Git para clonar el repositorio. (Sino puedes descargarlo como zip y extraerlo manualmente)
 
 ## Pasos para Iniciar
 
@@ -57,4 +56,6 @@ Para obtener la información de cada métrica hay que hacer un GET a `http://loc
 - Seguridad: http://localhost:8080/seguridad
 
 Devuelve un json con todos los datos que se tienen hasta la fecha de esa métrica.
+
+También proveemos el `lector.ipynb` y `lector.py`, con la función python que permite descargar los datos y meterlos en un DataFrame de pandas
     
