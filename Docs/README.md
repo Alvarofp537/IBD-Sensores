@@ -63,13 +63,13 @@ Para obtener la información de cada métrica hay que hacer un GET a `http://loc
 - Consumo de energía: http://localhost:8080/consumo
 - Seguridad: http://localhost:8080/seguridad
 
-Para ver el funcionamiento de RabbitMQ:
-- http://localhost:15672/
-
 Devuelve un json con todos los datos que se tienen hasta la fecha de esa métrica.
 
 También proveemos el `lector.ipynb` y `lector.py`, con la función python que permite descargar los datos y meterlos en un DataFrame de pandas
 
+
+Para ver el funcionamiento de RabbitMQ:
+- http://localhost:15672/
 
 ## Funcionamiento del servicio:
 
