@@ -58,13 +58,13 @@ Para obtener la información de cada métrica hay que hacer un GET a `http://loc
 Devuelve un json con todos los datos que se tienen hasta la fecha de esa métrica.
 
 También proveemos el `lector.ipynb` y `lector.py`, con la función python que permite descargar los datos y meterlos en un DataFrame de pandas
-    
-
-## Problema que resuelve:
 
 
 ## Cómo funciona el servicio:
 
 Existen diversos sensores de distintos tipos (seguridad, temperatura y humedad, consumo y ocupación) que recopilan información a una determinada frecuencia, cada uno de estos sensores se hospeda en un contenedor docker y envían su información recopilada a la API en formato JSON. Para que la información llegue a su destino es necesario que todos los contenedores (la API junto con los sensores) se localicen en la misma red, por eso se tiene que crear una red externa a la que se conecten los contenedores antes de levartarlos, y una vez se encuentren en la misma red, la API abrirá un puerto de escucha de protocolos http para recibir las peticiones POST de los sensores que almacenará en tablas csv (una para cada tipo de sensor) en un volumen para garantizar la consistencia de los datos.
-Para evitar que se saturen las escrituras, se ha implementado la API sobre RABBITMQ para gestionar canales y colas que conectan la API con las tablas de datos de cada tipo de sensor y evitar que, al recibir demasiados mensajes, acabe descartando algunos y perdiendo información al no poder escribirlos en las tablas de cada sensor. Para ello, hemos implementado 4 canales (uno para cada tipo de sensor) que se encargan de encolar los mensajes de escritura a los microservicios implementados para interacturar con las tablas. Para la lectura de dichas tablas, hemos implementado un microservicio que se encarga de las peticiones GET, solicitando las lecturas a cada microservicio que interactua con las tablas.
- 
+Para evitar que se saturen las escrituras, se ha implementado la API sobre RABBITMQ para gestionar canales y colas que conectan la API con las tablas de datos de cada tipo de sensor y evitar que, al recibir demasiados mensajes, acabe descartando algunos y perdiendo información al no poder escribirlos en las tablas de cada sensor. Para ello, hemos implementado 4 canales (uno para cada tipo de sensor) que se encargan de encolar los mensajes de escritura a los microservicios implementados para interacturar con las tablas. Para lograr una mayor consistencia de la infraestructura, hemos implementado un sistema de gestión de errores que, cuando se cierra el servicio de colas por motivos inesperados, automáticamente reinicia el serivcio y vuelve a estar funcional.
+Para la lectura de dichas tablas, hemos implementado un microservicio que se encarga de las peticiones GET, solicitando las lecturas a cada microservicio que interactua con las tablas.
+
+> [!WARNING]  
+> Los sensores de ocupación suponen un error al enviar el mensaje, pero luego al reintentar logra enviar el mismo mensaje. No hemos conseguido averiguar por qué sucede este error, ya que enviando los datos directamente desde el rabbitmq no supone ningún error.
