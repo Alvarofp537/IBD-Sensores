@@ -11,6 +11,8 @@ services:
     environment:
         RABBITMQ_DEFAULT_USER: building
         RABBITMQ_DEFAULT_PASS: password
+        RABBITMQ_HEARTBEAT: 18000  # Ajusta el tiempo de latido en segundos
+        # RABBITMQ_CONNECTION_TIMEOUT=300000  # Ajusta el tiempo de espera de la conexión en milisegundos
   api-gateway:
     image: miguelgp13/api-gateway:3.0
     # build:
