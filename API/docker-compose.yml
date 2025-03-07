@@ -34,7 +34,6 @@ services:
       - seguridad-service
       - temperatura-service
       - lector-service
-      - rabbitmq
 
   consumo-service:
     image: miguelgp13/consumo:4.0
